@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  // SEE: https://github.com/prisma/prisma/issues/27556#issuecomment-3023802641
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  pk_user        Int      @id @default(autoincrement())
+  vc_username    String   @db.VarChar(64) @unique
+  vc_password    String   @db.VarChar(256) @unique
+  role           Role     @relation(fields: [fk_role], references: [pk_role])
+  fk_role        Int      @default(1)
+  nu_exp_points  Int      @default(0)
+  dt_created_at  DateTime @db.Timestamptz @default(now())
+  dt_updated_at  DateTime @db.Timestamptz @default(now())
+}
+
+model Role {
+  pk_role        Int    @id @default(autoincrement())
+  vc_description String @db.VarChar(64) @unique
+  users          User[]
+}
+
+model Quiz {
+  pk_quiz       Int               @id @default(autoincrement())
+  vc_title      String            @db.VarChar(64)
+  vc_text       String            @db.VarChar(128)
+  dt_created_at DateTime          @db.Timestamptz @default(now())
+  dt_updated_at DateTime          @db.Timestamptz @default(now())
+  questions     Question[]
+}
+
+model Question {
+  pk_question     Int                 @id @default(autoincrement())
+  vc_text         String              @db.VarChar(256) @unique
+  category        Category            @relation(fields: [fk_category], references: [pk_category])
+  fk_category     Int
+  nu_right_answer Int
+  dt_created_at   DateTime            @db.Timestamptz @default(now())
+  dt_updated_at   DateTime            @db.Timestamptz @default(now())
+  quizzes         Quiz[]
+  answers         Answer[]
+}
+
+model Answer {
+  pk_answer     Int                 @id @default(autoincrement())
+  vc_option     String              @db.VarChar(64) @unique
+  category      Category            @relation(fields: [fk_category], references: [pk_category])
+  fk_category   Int
+  dt_created_at DateTime            @db.Timestamptz @default(now())
+  dt_updated_at DateTime            @db.Timestamptz @default(now())
+  questions     Question[]
+}
+
+model Category {
+  pk_category    Int        @id @default(autoincrement())
+  vc_description String     @db.VarChar(64) @unique
+  questions      Question[]
+  answers        Answer[]
+}

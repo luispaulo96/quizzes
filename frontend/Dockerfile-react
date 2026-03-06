@@ -1,0 +1,17 @@
+FROM node:24-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install -g serve
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3001
+
+RUN npm run build
+
+CMD ["serve", "-s", "build", "-l", "3001"]
