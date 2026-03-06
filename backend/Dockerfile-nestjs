@@ -10,4 +10,10 @@ COPY . .
 
 EXPOSE 3000
 
+RUN npx prisma migrate reset --force
+
+RUN npx prisma generate
+
+RUN npx prisma db seed
+
 CMD ["npm", "start"]
