@@ -236,7 +236,7 @@ async function main() {
     INSERT INTO "Quiz"
       ("vc_title", "vc_text")
     VALUES
-      ('Quiz sobre dimensões', 'Esse quiz testa conhecimentos sobre as dimensões dos países'),
+      ('Quiz sobre áreas', 'Esse quiz testa conhecimentos sobre as áreas dos países'),
       ('Quiz sobre fronteiras', 'Esse quiz testa conhecimentos sobre as fronteiras dos países'),
       ('Quiz sobre continentes', 'Esse quiz testa conhecimentos sobre os continentes e países')
     ON CONFLICT DO NOTHING;
@@ -304,7 +304,7 @@ async function main() {
       (44, 6),
       (190, 6),
       (81, 6),
-      (61, 7),
+      (162, 7),
       (120, 7),
       (115, 7),
       (82, 7),
